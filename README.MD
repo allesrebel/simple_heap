@@ -21,4 +21,4 @@ heap, directly prior to the data.
 
 ## Limitations
 The heap really doesn't have a way to defrag the allocations or 
-restructure the heap. Will be added!
+restructure the heap. 

@@ -1,1 +1,1 @@
-CFLAGS = -std=c99 -DDEBUG -ggdb
+CFLAGS = -DDEBUG -ggdb

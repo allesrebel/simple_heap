@@ -21,11 +21,11 @@
  * -- Super Simple Heap Manager --
  * Uses inplace memory management with metadata contained
  * in the heap itself. 
- * Uses Lazy Reallocation and defrag
+ * Uses Lazy allocation 
  * Splits blocks during allocation if size is great
  */
 
-struct block{
+struct __attribute__((__packed__)) block{
 	int size;
 	struct block* next;
 };
@@ -35,6 +35,7 @@ static int overhead = sizeof(block_t);
 // Null will mean that there's been no blocks allocated
 static block_t* free_list = NULL;
 
+// Honestly, should be called right after c runtime is up
 void init_heap(){
 #if defined( DEBUG )
 	dbg_heap = malloc(RAM_SIZE);
@@ -104,14 +105,17 @@ void* my_malloc( int size ){
 	}
 	else if( ptr->next == NULL ){
 		// We went through the entire list
-		// Maybe trigger a defrag
+		// Trigger a defrag TODO
 	}
 	PRINT("NO BLOCK FOUND");
 	return NULL;
 }
 
 int main(int argc, char** argv){
+#if defined( DEBUG )	
+	// Should be called after crt is set up
 	init_heap();
+#endif
 	// A quick Test of the malloc and free :)
 	const int array_size = 1000;
 	char* char_arry = my_malloc(array_size);
@@ -119,5 +123,6 @@ int main(int argc, char** argv){
 		char_arry[i] = 'F';
 	char_arry[array_size-1] = '\0';
 	my_free( char_arry );
+
 	return 0;
 }
